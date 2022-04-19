@@ -1,0 +1,201 @@
+<!--pages/HotelPolicyAndFacility/HotelPolicyAndFacility.wxml-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="baxtText">返回</view>
+	<view slot="content">设施与政策</view>
+</cu-custom>
+<view>
+	<scroll-view scroll-x class="bg-white nav">
+		<view class="flex text-center">
+			<view class="cu-item flex-sub {{index == curTab ? 'text-blue cur':''}}" data-index="{{index}}" wx:for="{{tabList}}" wx:key wx:for-item="tabName" bindtap="onTabChange">
+				{{tabName}}
+			</view>
+		</view>
+	</scroll-view>
+	<view hidden="{{showFacilityTab}}">
+		<view class="margin-top-lg flex align-center">
+			<text class="cuIcon-noticefill xs text-cyan"></text>
+			<view class="text-xxl" style="margin-left: 5px;">订房必读</view>
+		</view>
+		<view class="grid justify-start margin-left">
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">重要提示</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelPolicy.importantNotice}}
+				</view>
+			</view>
+
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">酒店提示</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelPolicy.hotelTips}}
+				</view>
+			</view>
+
+			<view class="grid margin-top-xs">
+
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">城市要求</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelPolicy.cityNotice}}
+				</view>
+			</view>
+
+			<view class="grid margin-top-xs">
+
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">儿童</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelPolicy.childrenPolicy}}
+				</view>
+			</view>
+
+			<view class="grid margin-top-xs">
+
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">宠物政策</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelPolicy.petPolicy}}
+				</view>
+			</view>
+
+			<view class="grid margin-top-xs">
+
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">年龄政策</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelPolicy.agePolicy}}
+				</view>
+			</view>
+
+			<view class="grid margin-top-xs">
+
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">预订政策</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelPolicy.bookingPolicy}}
+				</view>
+			</view>
+
+			<view class="grid margin-topxs">
+
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">早餐</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelPolicy.breakfastPolicy}}
+				</view>
+			</view>
+		</view>
+	</view>
+
+	<view hidden="{{showPolicyTab}}" class="padding-xs">
+		<view class="grid justify-start margin-left">
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">热门设施</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelFacility.hotFacility}}
+				</view>
+			</view>
+			
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">娱乐设施</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelFacility.entertainmentFacility}}
+				</view>
+			</view>
+			
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">前台服务</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelFacility.frontDeskService}}
+				</view>
+			</view>
+			
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">清洁服务</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelFacility.cleaningService}}
+				</view>
+			</view>
+
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">餐饮服务</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelFacility.cateringService}}
+				</view>
+			</view>
+			
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">其他服务</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelFacility.otherService}}
+				</view>
+			</view>
+			
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">公共区域</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelFacility.publicArea}}
+				</view>
+			</view>
+			
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">商务服务</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelFacility.businessService}}
+				</view>
+			</view>
+			
+			<view class="grid margin-top-xs">
+				<view class="flex align-center margin-top-sm">
+					<text class="cuIcon-radioboxfill"></text>
+					<view class="margin-left-xs">公共设施</view>
+				</view>
+				<view style="margin-left: 16px; margin-top: 10px;">
+					{{hotelFacility.generalFacility}}
+				</view>
+			</view>
+		</view>
+	</view>
+</view>

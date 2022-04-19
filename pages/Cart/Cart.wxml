@@ -1,0 +1,44 @@
+<!--pages/Cart/Cart.wxml-->
+<cu-custom bgColor="bg-blue" isBack="{{true}}">
+    <view slot="backText">返回</view>
+	<view slot="content">购物车</view>
+</cu-custom>
+<block wx:for="{{cartDetailList}}" wx:for-item="commodityDetail" wx:key wx:for-idx="index">
+    <view class="cu-card article">
+        <view class="cu-item shadow" style="padding-bottom: 0;{{index === 0 ? 'margin-top: 10;' : 'margin-top: 0;'}}">
+            <view class="flex margin-top-sm">
+                <image mode="aspectFill" style="width: 50px;height: 50px;margin-left: 10px;" src="{{'http://localhost:8080/static/download/' + commodityDetail.coverImage}}"></image>
+                <view class="grid col-1 margin-left-sm">
+                    <view class="flex">
+                        {{commodityDetail.name}}
+                    </view>
+                    <view class="flex align-end justify-between">
+                        <view>
+                            <text style="color: black;">￥</text>
+                            <text style="font-size: 18px;color: black;">{{commodityDetail.price}}</text>
+                        </view>
+                        <view style="color: black;">
+                            <text class="margin-right-xs">{{commodityDetail.count}}</text>份
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="flex justify-end" style="padding: 0;margin-right: 10px;margin-bottom: 10px;">
+                <text class="cuIcon-delete text-red" style="font-size: 20px;" bindtap="delete" data-id="{{commodityDetail.id}}"></text>
+            </view>
+        </view>
+    </view>
+</block>
+
+<view style="position: fixed;bottom: 0;width: 100%;">
+    <view class="flex justify-between align-center bg-white" style="height: 60px;">
+        <view class="margin-left-xl">
+            <text style="color: black;margin-left: 5px;">总价</text>
+            <text style="color: red;">￥</text>
+            <text style="color: red;font-size: 25px;">{{totalPrice}}</text>
+        </view>
+        <view class="margin-right-xl">
+            <button class="cu-btn shadow" bindtap="pay" style="background-color: #0081FF;color: white;">线上付款</button>
+        </view>
+    </view>
+</view>

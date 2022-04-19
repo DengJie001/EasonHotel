@@ -1,0 +1,56 @@
+<!--pages/RoomBooking/RoomBooking.wxml-->
+<cu-custom bgColor="bg-white" isBack="{{true}}">
+    <view slot="backText">返回</view>
+	<view slot="content">酒店预订</view>
+</cu-custom>
+<view>
+    <view class="cu-bar search bg-white shadow-bottom">
+        <view class="flex justify-center align-center" style="margin-left: 10px;">
+            <picker mode="multiSelector" bindchange="pickerChange" bindcolumnchange="pickerColumnChange" value="{{multiIndex}}" range="{{cityList}}" range-key="name">
+                <view class="picker">
+                    {{cityList[1][multiIndex[1]].name}}
+                </view>
+            </picker>
+            <text class="cuIcon-triangledownfill"></text>
+        </view>
+        <view class="search-form round" style="margin-left: 0px;">
+            <text class="cuIcon-search"></text>
+            <input type="text" placeholder="酒店名称" bindinput="getInputValue" />
+        </view>
+        <view class="action">
+            <button class="cu-btn bg-green shadow-blur round" bindtap="search">搜索</button>
+        </view>
+    </view>
+</view>
+<block wx:for="{{hotelInfos}}" wx:key wx:for-item="hotelInfo" wx:for-idx="hotelInfoIndex">
+    <view class="flex padding bg-white solid-top solid-bottom" bindtap="toDetail" data-hotelid="{{hotelInfo.id}}">
+        <view>
+            <image mode="aspectFit" style="width: 135px;height: 185px;" src="{{'http://localhost:8080/static/download/' + hotelInfo.coverImage}}"></image>
+        </view>
+        <view class="margin-left-sm">
+            <view>
+                <text style="font-size: 19px;font-weight: 300;">{{hotelInfo.name}}</text>
+            </view>
+            <view class="margin-top-sm flex align-center">
+                <text wx:for="{{5}}" wx:for-item="idx" class="cuIcon-likefill" style="color: {{hotelInfo.score / 2 >= (idx + 1) ? '#DDC8A3' : 'gray'}};"></text>
+                <text wx:if="{{hotelInfo.score >= 0 && hotelInfo.score <= 4}}" style="color: #BC9651;font-size: 12px; margin-left: 5px;font-size: 500;">{{hotelInfo.score}} 一般</text>
+                <text wx:if="{{hotelInfo.score > 4 && hotelInfo.score <= 7}}" style="color: #BC9651;font-size: 12px; margin-left: 5px;font-size: 500;">{{hotelInfo.score}} 良好</text>
+                <text wx:if="{{hotelInfo.score > 7 && hotelInfo.score <= 10}}" style="color: #BC9651;font-size: 12px; margin-left: 5px;font-size: 500;">{{hotelInfo.score}} 很棒</text>
+                <text style="color: #6A6A6E;font-size: 12px;margin-left: 5px;">{{hotelInfo.commentNumber}}条评论</text>
+            </view>
+            <view class="margin-top-sm flex">
+                <text>{{hotelInfo.address}}</text>
+            </view>
+            <view class="flex margin-top-sm">
+                <view wx:for="{{hotelInfo.tags}}" wx:for-item="tag" class="cu-tag sm" style="color: #BC9651;border: 1rpx solid #BC9651;background-color: white;">{{tag}}</view>
+                <view class="cu-tag sm" style="color: #BC9651;border: 1rpx solid #BC9651;background-color: white;">自助洗衣</view>
+                <view class="cu-tag sm" style="color: #BC9651;border: 1rpx solid #BC9651;background-color: white;">机器人服务</view>
+            </view>
+            <view class="flex align-end" style="position: absolute;bottom: 30px;right: 15px;">
+                <text style="color: red;">￥</text>
+                <text style="color: red;font-size: 24px;font-weight: 500;font-family: 宋体;">{{hotelInfo.minimumPrice}}</text>
+                <text style="color: red;font-size: 15px;font-weight: 500;font-family: 宋体;">起</text>
+            </view>
+        </view>
+    </view>
+</block>

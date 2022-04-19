@@ -1,0 +1,288 @@
+<!--pages/Epidemic/Epidemic.wxml-->
+<cu-custom bgColor="bg-gradual-orange" style="background-color: #BF1504;" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">疫情查询</view>
+</cu-custom>
+<view>
+    <image src="../../images/epidemicBanner.jpg" mode="aspectFill" style="width: 100%;"></image>
+</view>
+
+<view class="padding">
+    <view class="bg-white" style="border-radius: 10px;">
+        <scroll-view class="nav">
+            <view class="flex text-center">
+                <view class="cu-item flex-sub {{hidePolicy ? 'text-black' : 'text-orange cur'}}" bindtap="showPolicy">
+                    出行政策
+                </view>
+                <view class="cu-item flex-sub {{hideRiskRegion ? 'text-black' : 'text-orange cur'}}" bindtap="showRiskRegion">
+                    风险地区
+                </view>
+            </view>
+        </scroll-view>
+        <view class="justify-center" style="border-radius: 10px;" hidden="{{hidePolicy}}">
+            <!-- 地址选择 -->
+            <view class="grid col-3 padding align-center justify-center" style="background-color: #F5F5F5;margin: 10px;border-radius: 10px;">
+                <picker mode="multiSelector" bindchange="fromPickerChange" bindcolumnchange="fromPickerColumnChange" value="{{fromPickerIndex}}" range="{{fromProvinces}}" range-key="name">
+                    <view style="margin-right: 40px;">
+                        {{fromProvinces[1][fromPickerIndex[1]].name}}<text class="cuIcon-triangledownfill"></text>
+                    </view>
+                </picker>
+                <view class="flex justify-center">
+                    <text class="cuIcon-order text-orange" style="transform: rotate(90deg);font-size: 30px;"></text>
+                </view>
+                <picker mode="multiSelector" bindchange="toPickerChange" bindcolumnchange="toPickerColumnChange" value="{{toPickerIndex}}" range="{{toProvinces}}" range-key="name">
+                    <view style="margin-left: 40px;">
+                        {{toProvinces[1][toPickerIndex[1]].name}}<text class="cuIcon-triangledownfill"></text>
+                    </view>
+                </picker>
+            </view>
+
+            <!-- 政策详情部分 -->
+            <view hidden="{{hidePolicyDetail}}">
+                <!-- 出 -->
+                <view>
+                    <view class="flex justify-between padding-top padding-lr align-center">
+                        <view class="align-center flex">
+                            <text class="cuIcon-locationfill" style="color: #FF1414;font-size: 20px;"></text>
+                            <text style="font-size: 20px;font-weight: bold;color: black;">出{{policy.fromInfo.cityName}}</text>
+                            <view class="cu-tag sm line-green text-green radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '0'}}">暂无</view>
+                            <view class="cu-tag sm line-green text-green radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '1'}}">低风险</view>
+                            <view class="cu-tag sm line-orange text-orange radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '2'}}">中风险</view>
+                            <view class="cu-tag sm line-red text-red radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '3'}}">高风险</view>
+                            <view class="cu-tag sm line-orange text-orange radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '4'}}">部分地区中风险</view>
+                            <view class="cu-tag sm line-red text-red radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '5'}}">部分地区高风险</view>
+                        </view>
+                        <view class="cu-tag bg-green round" bindtap="openModal" data-url="{{policy.fromInfo.healthCodePicture}}">出发地健康码</view>
+                    </view>
+                    <view class="gird col-1 padding-lr-xl margin-top-sm">
+                        <view style="font-size: 13px;">
+                            <text decode="{{true}}">{{policy.fromInfo.outDesc}}</text>
+                        </view>
+                    </view>
+                </view>
+
+                <!-- 进 -->
+                <view>
+                    <view class="flex justify-between padding-top padding-lr align-center">
+                        <view class="align-center flex">
+                            <text class="cuIcon-radioboxfill" style="color: #FF1414;font-size: 20px;"></text>
+                            <text style="font-size: 20px;font-weight: bold;color: black;">进{{policy.toInfo.cityName}}</text>
+                            <view class="cu-tag sm line-green text-green radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '0'}}">暂无</view>
+                            <view class="cu-tag sm line-green text-green radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '1'}}">低风险</view>
+                            <view class="cu-tag sm line-orange text-orange radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '2'}}">中风险</view>
+                            <view class="cu-tag sm line-red text-red radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '3'}}">高风险</view>
+                            <view class="cu-tag sm line-orange text-orange radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '4'}}">部分地区中风险</view>
+                            <view class="cu-tag sm line-red text-red radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '5'}}">部分地区高风险</view>
+                        </view>
+                        <view class="cu-tag bg-green round" bindtap="openModal" data-url="{{policy.toInfo.healthCodePicture}}">目的地健康码</view>
+                    </view>
+                    <view class="gird col-1 padding-lr-xl margin-top-sm">
+                        <view style="font-size: 13px;">
+                            <text decode="{{true}}">{{policy.toInfo.lowInDesc}}</text>
+                            <text decode="{{true}}">{{policy.toInfo.highInDesc}}</text>
+                        </view>
+                    </view>
+                </view>
+
+                <view class="solid-bottom margin-top-sm"></view>
+
+                <!-- 出 -->
+                <view hidden="{{policy.fromInfo.cityName === policy.toInfo.cityName}}">
+                    <view class="flex justify-between padding-top padding-lr align-center">
+                        <view class="align-center flex">
+                            <text class="cuIcon-radioboxfill" style="color: #FF1414;font-size: 20px;"></text>
+                            <text style="font-size: 20px;font-weight: bold;color: black;">出{{policy.toInfo.cityName}}</text>
+                            <view class="cu-tag sm line-green text-green radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '0'}}">暂无</view>
+                            <view class="cu-tag sm line-green text-green radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '1'}}">低风险</view>
+                            <view class="cu-tag sm line-orange text-orange radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '2'}}">中风险</view>
+                            <view class="cu-tag sm line-red text-red radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '3'}}">高风险</view>
+                            <view class="cu-tag sm line-orange text-orange radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '4'}}">部分地区中风险</view>
+                            <view class="cu-tag sm line-red text-red radius" style="margin-left: 5px;" wx:if="{{policy.toInfo.riskLevel === '5'}}">部分地区高风险</view>
+                        </view>
+                        <view class="cu-tag bg-green round" bindtap="openModal" data-url="{{policy.toInfo.healthCodePicture}}">出发地健康码</view>
+                    </view>
+                    <view class="gird col-1 padding-lr-xl margin-top-sm">
+                        <view style="font-size: 13px;">
+                            <text decode="{{true}}">{{policy.toInfo.outDesc}}</text>
+                        </view>
+                    </view>
+                </view>
+
+                <!-- 进 -->
+                <view hidden="{{policy.fromInfo.cityName === policy.toInfo.cityName}}">
+                    <view class="flex justify-between padding-top padding-lr align-center">
+                        <view class="align-center flex">
+                            <text class="cuIcon-locationfill" style="color: #FF1414;font-size: 20px;"></text>
+                            <text style="font-size: 20px;font-weight: bold;color: black;">进{{policy.fromInfo.cityName}}</text>
+                            <view class="cu-tag sm line-green text-green radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '0'}}">暂无</view>
+                            <view class="cu-tag sm line-green text-green radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '1'}}">低风险</view>
+                            <view class="cu-tag sm line-orange text-orange radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '2'}}">中风险</view>
+                            <view class="cu-tag sm line-red text-red radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '3'}}">高风险</view>
+                            <view class="cu-tag sm line-orange text-orange radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '4'}}">部分地区中风险</view>
+                            <view class="cu-tag sm line-red text-red radius" style="margin-left: 5px;" wx:if="{{policy.fromInfo.riskLevel === '5'}}">部分地区高风险</view>
+                        </view>
+                        <view class="cu-tag bg-green round" bindtap="openModal" data-url="{{policy.fromInfo.healthCodePicture}}">目的地健康码</view>
+                    </view>
+                    <view class="gird col-1 padding-lr-xl margin-top-sm">
+                        <view style="font-size: 13px;">
+                            <text decode="{{true}}">{{policy.fromInfo.lowInDesc}}</text>
+                            <text decode="{{true}}">{{policy.fromInfo.highInDesc}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 提示 -->
+            <view class="padding">
+                <text style="text-align: center;color: #BBBBBB;font-size: 12px;">以上政策整理自当地政府等公开发布的信息，如有更新或错漏，请以最新政策为准，建议在出行前咨询当地防疫部门、机场、火车站等</text>
+            </view>
+
+            <!-- 下方健康码部分 -->
+            <view hidden="{{hidePolicyDetail}}">
+                <view class="grid col-1 padding">
+                    <view style="font-size:20px;color: #333333;">请准备好进出凭证</view>
+                    <!-- 出地 健康码 -->
+                    <view class="flex justify-between align-center boxShadow margin-top-sm" bindtap="openModal" data-url="{{policy.fromInfo.healthCodePicture}}">
+                        <view class="flex align-center" bindtap="openModal" data-url="{{policy.fromInfo.healthCodePicture}}">
+                            <view>
+                                <text class="cuIcon-qrcode" style="color: #333333;font-size: 25px;"></text>
+                            </view>
+                            <view style="color: #333333;font-size: 18px;margin-left: 10px;">{{policy.fromInfo.cityName}}</view>
+                        </view>
+                        <view class="flex justify-start align-center">
+                            <view style="font-size: 15px;color: #999999;">{{policy.fromInfo.healthCodeName}}</view>
+                            <view>
+                                <text class="cuIcon-right" style="color: #333333;font-size: 18px;"></text>
+                            </view>
+                        </view>
+                    </view>
+
+                    <!-- 进地 健康码 -->
+                    <view class="flex justify-between align-center boxShadow margin-top-sm" bindtap="openModal" data-url="{{policy.toInfo.healthCodePicture}}">
+                        <view class="flex align-center">
+                            <view>
+                                <text class="cuIcon-qrcode" style="color: #333333;font-size: 25px;"></text>
+                            </view>
+                            <view style="color: #333333;font-size: 18px;margin-left: 10px;">{{policy.toInfo.cityName}}</view>
+                        </view>
+                        <view class="flex justify-start align-center">
+                            <view style="font-size: 15px;color: #999999;">{{policy.toInfo.healthCodeName}}</view>
+                            <view>
+                                <text class="cuIcon-right" style="color: #333333;font-size: 18px;"></text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <!-- 疫情风险地区 -->
+        <view class="justify-center" style="border-radius: 10px" hidden="{{hideRiskRegion}}">
+            <view class="padding">
+                <view class="boxShadow">
+                    <view>
+                        <text style="color: #333333;font-size: 16px;">截止{{riskRegion.updatedDate}}时，全国疫情</text>
+                    </view>
+                    <view class="solid-bottom margin-top-sm"></view>
+                    <view class="grid col-2" style="margin-top: 25px;">
+                        <view class="" style="text-align: center;">
+                            <view>
+                                <text style="font-weight:bold;color: #EB512B;font-size: 20px;">{{riskRegion.highCount}}个</text>
+                            </view>
+                            <view class="margin-top-sm">
+                                <text style="font-size: 16px;">高风险等级地区</text>
+                            </view>
+                        </view>
+                        <view class="solid-left" style="text-align: center;">
+                            <view>
+                                <text style="font-weight:bold;color: #F8C900;font-size: 20px;">{{riskRegion.middleCount}}个</text>
+                            </view>
+                            <view class="margin-top-sm">
+                                <text style="font-size: 16px;">中风险等级地区</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="solid-bottom margin-top-sm"></view>
+                    <view class="grid col-1" style="margin-top: 25px;">
+                        <view>
+                            <text>其余未列出地区均为低风险</text>
+                        </view>
+                        <view>
+                            <text style="font-size: 14px;color: #999999;">由国家卫健委每日汇总各地报送疫情风险等级数据。</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+
+            <view class="padding">
+                <view class="justify-start align-center flex">
+                    <view>
+                        <text class="cuIcon-title" style="color: red;font-size: 25px;"></text>
+                    </view>
+                    <view>
+                        <text style="color: red;font-size: 18px;">高风险等级地区</text>
+                    </view>
+                </view>
+
+                <block wx:for="{{riskRegion.highList}}" wx:for-item="highRiskRegion" wx:key>
+                    <view class="boxShadow margin-top-sm">
+                        <view class="gird col-1" style="padding-left: 5px;padding-right: 5px;">
+                            <view class="padding-bottom-sm solid-bottom">
+                                <text style="font-size: 16px;">{{highRiskRegion.area_name}}</text>
+                            </view>
+                            <view class="flex justify-between align-center padding solid-bottom" wx:for="{{highRiskRegion.communitys}}" wx:key wx:for-item="comminity">
+                                <view>
+                                    <text>{{comminity}}</text>
+                                </view>
+                                <view style="width: 20%;" class="text-cut">
+                                    <text style="color: red;">高风险</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+
+                <view class="justify-start align-center flex margin-top-sm">
+                    <view>
+                        <text class="cuIcon-title" style="color: #F8C900;font-size: 25px;"></text>
+                    </view>
+                    <view>
+                        <text style="color: #F8C900;font-size: 18px;">中风险等级地区</text>
+                    </view>
+                </view>
+
+                <block wx:for="{{riskRegion.middleList}}" wx:for-item="middleRiskRegion" wx:key>
+                    <view class="boxShadow margin-top-sm">
+                        <view class="gird col-1" style="padding-left: 5px;padding-right: 5px;">
+                            <view class="padding-bottom-sm solid-bottom">
+                                <text style="font-size: 16px;">{{middleRiskRegion.area_name}}</text>
+                            </view>
+                            <view class="flex justify-between align-center padding solid-bottom" wx:for="{{middleRiskRegion.communitys}}" wx:for-item="middleCommunity" wx:key>
+                                <view>
+                                    <text>{{middleCommunity}}</text>
+                                </view>
+                                <view style="width: 20%;" class="text-cut">
+                                    <text style="color: #F8C900;">高风险</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </view>
+    </view>
+</view>
+
+<view class="cu-modal {{ hideModal ? '': 'show'}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">健康码(微信/支付宝)</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red"></text>
+            </view>
+        </view>
+        <view class="padding-sm">
+            <image style="height: 150px;width: 150px;" src="{{healthCodeUrl}}"></image>
+        </view>
+    </view>
+</view>

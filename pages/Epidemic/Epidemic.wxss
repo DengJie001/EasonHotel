@@ -1,0 +1,5 @@
+/* pages/Epidemic/Epidemic.wxss */
+.boxShadow {
+    box-shadow: 0px 0px 5px 5px #F4F8FF;
+    padding: 5px;border-radius: 10px;
+}

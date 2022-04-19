@@ -1,0 +1,54 @@
+<!--pages/Trip/Trip.wxml-->
+<cu-custom bgColor="bg-cyan">
+	<view slot="content">行程</view>
+</cu-custom>
+<block wx:for="{{orderList}}" wx:for-item="order" wx:key wx:for-idx="index">
+	<view class="grid col-1 bg-white" style="padding: 15px;margin: 15px;border-radius: 10px;">
+		<view class="flex justify-between align-center">
+			<view>
+				<text class="text-blue" style="font-size: 14px; font-weight: 600;">下单金额</text>
+				<text class="text-blue margin-left-xs" style="font-size: 10px;">￥</text>
+				<text class="text-blue" style="font-size: 18px; font-weight: 700;">{{order.price}}</text>
+			</view>
+			<view class="cu-tag line-blue">{{order.status}}</view>
+		</view>
+		<view class="flex solid-bottom margin-top-xs">
+			<view style="font-size: 10px; color: gray;">
+				订单号：{{order.id}}
+			</view>
+		</view>
+		<view class="flex margin-top-sm">
+			<view style="font-size: 16px; font-weight: 600;color: black;">{{order.startDateJson.month}}月{{order.startDateJson.date}}日</view>
+			<view style="font-size: 16px; font-weight: 600;color:black; margin-left: 5px;">{{order.hotelName}}</view>
+			<view style="font-size: 16px; font-weight: 600;color:black; margin-left: 5px;">{{order.roomName}}</view>
+		</view>
+		<view class="bg-white">
+			<view class="cu-steps">
+				<view class="cu-item text-green">
+					<text class="cuIcon-usefullfill"></text>{{order.startDateJson.month}}月{{order.startDateJson.date}}日入住
+				</view>
+				<view class="cu-item text-{{order.staying ? 'green' : 'gray'}}">
+					<text class="cuIcon-radioboxfill"></text>停留{{order.days}}天
+				</view>
+				<view class="cu-item text-{{order.leave ? 'green' : 'gray'}}">
+					<text class="cuIcon-roundcheckfill"></text>{{order.endDateJson.month}}月{{order.endDateJson.date}}日离店
+				</view>
+			</view>
+		</view>
+		<view class="flex justify-between align-center margin-top-sm">
+			<view class="flex solid-bottom margin-top-xs">
+				<view style="font-size: 10px; color: gray;">
+					下单时间：{{order.createdAt}}
+				</view>
+			</view>
+			<view class="flex justify-end">
+				<view wx:if="{{order.status === '已结束'}}">
+					<button class="cu-btn sm line-blue" bindtap="toHotelComment" data-order="{{order}}">评论</button>
+				</view>
+				<view class="margin-left-sm" wx:if="{{order.status === '已支付'}}">
+					<button class="cu-btn sm bg-red" bindtap="refund" data-id="{{order.id}}">退款</button>
+				</view>
+			</view>
+		</view>
+	</view>
+</block>

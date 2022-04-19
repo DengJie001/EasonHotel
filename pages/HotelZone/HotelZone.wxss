@@ -1,0 +1,13 @@
+/* pages/HotelZone/HotelZone.wxss */
+.btnSuspension{
+    position: fixed;
+    height: 100rpx;
+    width: 100rpx;
+    background-color: rgba(28, 187, 180, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999999999999999999;
+    border-radius: 50px;
+    box-shadow: #1CBBB4 0px 0px 5px;
+}

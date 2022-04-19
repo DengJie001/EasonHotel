@@ -1,0 +1,5 @@
+<!--pages/Complaint/Complaint.wxml-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+    <view slot="backText">返回</view>
+	<view slot="content">投诉建议</view>
+</cu-custom>

@@ -1,0 +1,26 @@
+<!--pages/HotelZoneSubmit/HotelZoneSubmit.wxml-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">发表动态</view>
+</cu-custom>
+<view class="gird col-1 padding">
+    <view class="flex">
+        <textarea placeholder="这一刻的想法…" maxlength="-1" bindinput="getInputValue"></textarea>
+    </view>
+    <view>
+        <view class="grid col-3 grid-square flex-sub">
+            <view class="bg-img" wx:for="{{imgList}}" wx:key bindtap="previewImage" data-url="{{imgList[index]}}">
+                <image src="{{imgList[index]}}" mode="aspectFill"></image>
+                <view class="cu-tag bg-red" catchtap="deleteImage" data-index="{{index}}">
+                    <text class="cuIcon-close"></text>
+                </view>
+            </view>
+            <view class="solids" style="border: 1rpx solid rgba(0, 0, 0, 0.3);" bindtap="chooseImage" wx:if="{{imgList.length < 9}}">
+                <text class="cuIcon-cameraadd"></text>
+            </view>
+        </view>
+        <view class="flex justify-end align-center">
+            <button class="cu-btn bg-cyan" bindtap="onSubmit">发表</button>
+        </view>
+    </view>
+</view>

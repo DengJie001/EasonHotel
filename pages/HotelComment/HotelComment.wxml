@@ -1,0 +1,38 @@
+<!--pages/HotelComment/HotelComment.wxml-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">酒店评价</view>
+</cu-custom>
+<view class="bg-white padding-sm margin-sm shadow" style="border-radius: 10px;">
+    <view class="flex justify-start align-center">
+        <view>
+            <image src="{{'http://localhost:8080/static/download/' + hotelCoverImageId}}" style="width: 50px; height: 50px;" mode="aspectFill"></image>
+        </view>
+        <view class="gird col-1 margin-left-sm">
+            <view style="font-size: 100;">
+                <text style="color: black;">{{orderInfo.hotelName}}</text>
+                <text style="color: black;margin-left: 10px;">{{orderInfo.bedType}}</text>
+            </view>
+            <view class="text-blue">
+                <text style="font-size: 11px;">订单金额：￥{{orderInfo.price}}</text>
+            </view>
+        </view>
+    </view>
+    <view class="padding-sm">
+        <view class="grid col-5 text-center" style="padding-left: 100px;padding-right: 100px;">
+            <block wx:for="{{5}}">
+                <view bindtap="onTapStar" data-index="{{index}}">
+                    <text class="cuIcon-favorfill text-{{starIndex >= index ? 'red' : 'gray'}}" style="font-size: 25px;"></text>
+                </view>
+            </block>
+        </view>
+    </view>
+    <view class="flex justify-between align-end bg-gray" style="border-radius: 10px;">
+        <view class="margin-top">
+            <textarea bindinput="getInputValue" maxlength="-1" placeholder="这次酒店入住已经结束啦，将入住体验分享给大家吧！" style="font-size: 15px;padding: 5px;"></textarea>
+        </view>
+        <view class="margin-right-xs margin-bottom-xs">
+            <button class="cu-btn bg-blue" bindtap="onSubmit">提交</button>
+        </view>
+    </view>
+</view>

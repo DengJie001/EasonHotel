@@ -1,0 +1,4 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+    <view slot="backText">返回</view>
+	<view slot="content">我的钱包</view>
+</cu-custom>

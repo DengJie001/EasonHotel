@@ -1,0 +1,12 @@
+/**index.wxss**/
+.item-picture {
+	border-radius: 50%;
+	height: 90rpx;
+	width: 90rpx;
+	background-color: white;
+}
+  
+.item-title {
+	color: black;
+	font-size: 24rpx;
+}

@@ -1,0 +1,75 @@
+<!--index.wxml-->
+<cu-custom bgColor="bg-cyan">
+	<view slot="content">EasonHotel</view>
+</cu-custom>
+<view>
+	<swiper class="card-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500" indicator-color="#8799a3" indicator-active-color="#0081ff">
+		<swiper-item wx:for="{{swiperImages}}" wx:key class="{{swiperCur == index ? 'cur' : ''}}">
+			<view class="swiper-item">
+				<image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type == 'image'}}"></image>
+			</view>
+		</swiper-item>
+	</swiper>
+	<view>
+		<view class="flex text-center">
+			<view class="item flex-sub padding-xs margin-xs radius" bindtap="goto" data-tag="RoomBooking">
+				<view>
+					<image src="../../images/icon/bookRoom.png" class="item-picture"></image>
+				</view>
+				<view class="item-title margin-top-xs">房间预订</view>
+			</view>
+			<view class="item flex-sub padding-xs margin-xs radius" bindtap="goto" data-tag="Market">
+				<view>
+					<image src="../../images/icon/buy.png" class="item-picture"></image>
+				</view>
+				<view class="item-title margin-top-xs">购物</view>
+			</view>
+			<view class="item flex-sub padding-xs margin-xs radius" bindtap="goto" data-tag="Epidemic">
+				<view>
+					<image src="../../images/icon/epidemic.png" class="item-picture"></image>
+				</view>
+				<view class="item-title margin-top-xs">疫情查询</view>
+			</view>
+			<view class="item flex-sub padding-xs margin-xs radius" bindtap="goto" data-tag="Recharge">
+				<view>
+					<image src="../../images/icon/recharge.png" class="item-picture"></image>
+				</view>
+				<view class="item-title margin-top-xs">充值服务</view>
+			</view>
+			<!-- <view class="item flex-sub padding-xs margin-xs radius" bindtap="goto" data-tag="Complaint">
+				<view>
+					<image src="../../images/icon/complaints.png" class="item-picture"></image>
+				</view>
+				<view class="item-title margin-top-xs">投诉建议</view>
+			</view> -->
+		</view>
+	</view>
+
+	<view class="cu-bar bg-white">
+		<view class="action sub-title">
+			<text class="text-xl text-bold text-cyan">Eason精选</text>
+			<text class="text-ABC text-cyan">Featured</text>
+		</view>
+	</view>
+
+	<block wx:for="{{recommendHotelList}}" wx:item="{{item}}" wx:key>
+        <view class="cu-card case" bindtap="toDetail" data-id="{{item.id}}">
+            <view class="cu-item shadow">
+                <view class="image">
+                    <image mode="widthFix" src="{{'http://localhost:8080/static/download/' + item.coverImage}}"></image>
+                    <view class="cu-tag bg-blue">推荐</view>
+                    <view class="cu-bar bg-shadeBottom"></view>
+                </view>
+                <view class="cu-list">
+                    <view class="context flex-sub" style="margin-left: 20px;">
+                        <view style="margin-top: 30rpx;font-size: 18px;padding-bottom: 10rpx;">{{item.name}}</view>
+                        <view style="margin-bottom: 30rpx; font-size: 13px;color: gray;" class="flex justify-between">
+							{{item.title}} >
+						</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+	</block>
+
+</view>

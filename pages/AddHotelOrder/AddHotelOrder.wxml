@@ -1,0 +1,148 @@
+<!--pages/AddHotelOrder/AddHotelOrder.wxml-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="baxtText">返回</view>
+	<view slot="content">房间预订</view>
+</cu-custom>
+
+<scroll-view scroll-y="true">
+    <view class="padding-sm bg-white">
+	<view class="flex justify-between bg-white">
+		<view style="font-weight: 600; font-size: 15px;" class="flex text-black">
+			<view style="margin-right: 4px;">{{startDate.month}}月{{startDate.date}}日</view>
+			-
+			<view style="margin-left: 4px;">{{endDate.month}}月{{endDate.date}}日</view>
+			<view style="margin-left: 4px;">| 1晚</view>
+		</view>
+		<view class="text-blue" bindtap="openDetailModal">
+			房型详情
+		</view>
+	</view>
+	<view class="flex text-black margin-top-sm" style="font-size: 14px;">
+		<view style="margin-right: 5px;">{{roomInfo.name}}</view> | <view style="margin-left: 5px;">{{roomInfo.bedType}}</view>
+	</view>
+	<view class="flex margin-top-sm" style="font-size: 13px;">
+		<view class="cu-tag sm line-green">{{startDate.date}}日18:00前可免费取消</view>
+		<view class="cu-tag sm line-blue">立即确认</view>
+	</view>
+	<view class="solid margin-top-sm" style="height: 1px;"></view>
+	<view class="flex justify-between margin-top-sm">
+		<view class="text-black" style="font-size: 12px;">该价格仅适用于持大陆身份证的中国籍客人</view>
+		<view class="text-blue" bindtap="toFacilityAndPolicy">订房必读</view>
+	</view>
+</view>
+<view class="grid justify-center margin-top-sm radius">
+	<view class="flex bg-white padding-sm" style="width: 95%; border-radius: 5px;">
+		<view style="font-size: 18px;" class="text-bold text-black">订房信息</view>
+	</view>
+	<view class="flex bg-white justify-between align-center solid-bottom" style="width: 95%; border-radius: 5px;">
+		<view class="flex" style="width: 100%;">
+			<view class="cu-form-group">
+				<view class="title">住客姓名<text class="cuIcon-question"></text></view>
+				<input type="text" placeholder="请输入姓名" data-key="name" bindinput="getInputValue" />
+			</view>
+		</view>
+		<view class="margin-right-lg text-xxl text-blue">
+			<text class="cuIcon-profile"></text>
+		</view>
+	</view>
+	<view class="flex bg-white justify-between align-center solid-bottom" style="width: 95%; border-radius: 5px;">
+		<view class="flex" style="width: 100%;">
+			<view class="cu-form-group">
+				<view class="title">联系方式</view>
+				<input type="text" placeholder="请输入联系方式" data-key="telNumber" bindinput="getInputValue" />
+				<view class="cu-capsule radius">
+					<view class="cu-tag bg-blue">+86</view>
+					<view class="cu-tag line-blue">中国大陆</view>
+				</view>
+			</view>
+		</view>
+	</view>
+	<view class="flex bg-white justify-between align-center solid-bottom" style="width: 95%; border-radius: 5px;">
+		<view class="flex" style="width: 100%;">
+			<view class="cu-form-group">
+				<view class="title">入住人数</view>
+				<input type="number" placeholder="请输入入住人数" data-key="peopleNumber" bindinput="getInputValue" />
+			</view>
+		</view>
+	</view>
+</view>
+<view class="grid justify-center margin-top-sm radius">
+	<view class="flex bg-white padding-sm" style="width: 95%; border-radius: 5px;">
+		<view style="font-size: 18px;" class="text-bold text-black">安心服务</view>
+	</view>
+	<view class="flex bg-white padding-sm solid-bottom" style="width: 95%; border-radius: 5px;">
+		<view class="grid text-black">
+			<view style="font-size: 16px;">发票</view>
+			<view style="font-size: 12px;margin-top: 5px;" class="text-gray">发票由EasonHotel开具，支持专用发票和普通发票，退房时可在前台开具发票</view>
+		</view>
+	</view>
+	<view class="flex bg-white padding-sm solid-bottom" style="width: 95%; border-radius: 5px;">
+		<view class="gird text-black">
+			<view style="font-size: 16px;">特殊要求<text class="cuIcon-question"></text></view>
+			<view style="height: 60px;">
+				<textarea placeholder="请输入您的特殊要求" maxlength="-1" data-key="remark" bindinput="getInputValue"></textarea>
+			</view>
+		</view>
+	</view>
+</view>
+</scroll-view>
+
+<view style="position:fixed;bottom: 0; width: 100%; height: 80px;margin-top: 100px;z-index: 9999999;" class="bg-white shadow align-center">
+	<view class="flex solid-top justify-between align-center padding">
+		<view class="flex align-center">
+			<view>
+				<text style="font-size: 18px;" class="text-bold text-black margin-right-xs">在线付</text>
+				<text style="font-size: 25px;" class="text-bold text-price text-orange">{{roomNumberInfo.price * days}}</text>
+			</view>
+		</view>
+		<view class="flex align-center">
+			<view>
+				<button class="cu-btn bg-orange lg" bindtap="mockPay">去支付</button>
+			</view>
+		</view>
+	</view>
+</view>
+<view class="cu-modal bottom-modal {{showDetailModal ? 'show' : ''}}">
+	<view class="cu-dialog">
+		<view class="bg-white flex justify-between padding-sm text-black">
+			<view class="align-center flex">
+				<view style="font-size: 18px;font-weight: bold;">{{roomInfo.name}}</view>
+				<text class="text-gray margin-left-xs text-xs" style="opacity: 0.5;">房间号：{{roomNumberInfo.roomNumber}}</text>
+			</view>
+			<view bindtap="closeDetailModal">
+				<text class="cuIcon-close" style="font-size: 20px;"></text>
+			</view>
+		</view>
+		<swiper class="screen-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000">
+			<swiper-item wx:for="{{roomInfo.detailPicList}}" wx:key wx:for-item="detailPic">
+				<image src="{{'http://localhost:8080/static/download/' + detailPic}}" mode="aspectFill"></image>
+			</swiper-item>
+		</swiper>
+		<view class="padding solid-bottom">
+			<view class="grid col-4">
+				<view class="grid col-1">
+					<view style="font-size: 12px;color: gray;">面积</view>
+					<view>{{roomNumberInfo.area}}㎡</view>
+				</view>
+				<view class="grid col-1">
+					<view style="font-size: 12px;color: gray;">网络</view>
+					<view>WIFI免费</view>
+				</view>
+				<view class="grid col-1">
+					<view style="font-size: 12px;color: gray;">窗户</view>
+					<view>有窗</view>
+				</view>
+				<view class="grid col-1">
+					<view style="font-size: 12px;color: gray;">吸烟政策</view>
+					<view>禁烟</view>
+				</view>
+			</view>
+		</view>
+		<view class="padding-left solid-bottom">
+			<view class="flex justify-start">
+				<view class="padding text-bold" style="font-size: 13px;">床型</view>
+				<view class="padding">{{roomInfo.bedType}}</view>
+			</view>
+		</view>
+	</view>
+</view>

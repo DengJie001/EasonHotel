@@ -1,0 +1,38 @@
+<!--pages/HotelZone/HotelZone.wxml-->
+<cu-custom bgColor="bg-cyan">
+	<view slot="content">朋友圈</view>
+</cu-custom>
+<view>
+	<block wx:for="{{hotelZoneList}}" wx:key wx:for-item="hotelZoneItem" wx:for-idx="index">
+		<view class="grid col-1 padding">
+			<view class="flex justify-start align-start">
+				<view class="cu-avatar radius" style="background-image: url({{hotelZoneItem.userAvatar}})"></view>
+				<view style="margin-left: 10px;">
+					<text style="font-size: 15px;color: #576B95;">{{hotelZoneItem.userNickName}}</text>
+				</view>
+			</view>
+			<view style="margin-left: 45px; margin-top: -10px;color: black;">
+				{{hotelZoneItem.content}}
+			</view>
+			<view wx:if="{{true}}">
+				<view class="grid col-3 grid-square" style="margin-left: 45px;margin-top: 15px;">
+					<block wx:for="{{hotelZoneItem.picIds}}" wx:for-item="picId" wx:key>
+						<view class="bg-img" style="background-image: url(http://localhost:8080/static/download/{{picId}});"></view>
+					</block>
+				</view>
+			</view>
+			<view style="margin-left: 45px; color: gray; font-size: 10px;" class="flex justify-between align-center">
+				<view>
+					{{hotelZoneItem.submitDate}}
+				</view>
+				<!-- <view style="font-size: 20px;">
+					<text class="cuIcon-commentfill"></text>
+				</view> -->
+			</view>
+		</view>
+		<view class="solid-bottom"></view>
+	</block>
+</view>
+<view class="btnSuspension shadow" bindtap="openSubmitPage" catchtouchmove="buttonMove" bindtouchstart="buttonStart" bindtouchend="buttonEnd" style="top: {{buttonTop}}px;left: {{buttonLeft}}px;">
+	<text class="cuIcon-add" style="color: white;font-size: 50px;"></text>
+</view>

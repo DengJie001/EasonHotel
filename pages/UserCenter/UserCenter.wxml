@@ -1,0 +1,57 @@
+<!--pages/UserCenter/UserCenter.wxml-->
+<cu-custom bgColor="bg-cyan">
+    <view slot="content">个人中心</view>
+</cu-custom>
+<view class="padding">
+    <view>
+        <text style="font-size: 20px;color: black;">EasonHotel</text>
+    </view>
+    <view class="flex margin-top-xs">
+        <view class="cu-avatar xl round" style="background-image:url({{userInfo.avatar}})"></view>
+        <view class="flex justify-between align-center">
+            <view class="grid col-1 margin-left-sm">                
+                <view>
+                    <text style="font-size: 18px;color:black;">{{userInfo.nickName}}</text>
+                </view>
+                <view style="margin-top: 3px;">
+                    <text style="border: 1px solid #E54D42;color: #E54D42;font-size: 12px;padding: 3px;">{{userInfo.level}}</text>
+                </view>
+            </view>
+            <view style="position: fixed;right: 0;margin-right: 10px;font-size: 15px;">
+                <button class="cu-btn round sub line-gray text-black" bindtap="goto" data-url="../AccountSetting/AccountSetting">账户设置</button>
+            </view>
+        </view>
+    </view>
+</view>
+
+<view class="padding">
+    <view class="bg-white" style="border-radius: 10px;">
+        <view>
+            <view class="flex padding-sm">
+                <text style="font-size: 20px;color: black;">常用工具</text>
+            </view>
+            <view class="grid col-4" style="padding: 15px;">
+                <view class="grid col-1 text-center" bindtap="goto" data-url="../RechargeList/RechargeList">
+                    <view class="cuIcon-moneybag" style="font-size: 30px;"></view>
+                    <view><text>充值记录</text></view>
+                </view>
+                <view class="grid col-1 text-center" bindtap="goto" data-url="../CommodityOrder/CommodityOrder">
+                    <view class="cuIcon-goods" style="font-size: 30px;"></view>
+                    <view><text>购物订单</text></view>
+                </view>
+                <!-- <view class="grid col-1 text-center" bindtap="goto" data-url="../MyPurse/MyPurse">
+                    <view class="cuIcon-pay" style="font-size: 30px;"></view>
+                    <view><text>我的钱包</text></view>
+                </view>
+                <view class="grid col-1 text-center" bindtap="goto" data-url="../ComplaintList/ComplaintList">
+                    <view class="cuIcon-comment" style="font-size: 30px;"></view>
+                    <view><text>投诉建议</text></view>
+                </view> -->
+            </view>
+        </view>
+    </view>
+</view>
+
+<view class="flex justify-center" style="position: fixed; bottom: 0;text-align: center; width: 100%;margin-top: 5px;">
+    <text style="text-align: center; font-size: 12px;color: gray;">@{{year}} EasonHotel 版权所有</text>
+</view>

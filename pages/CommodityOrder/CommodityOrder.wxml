@@ -1,0 +1,52 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+    <view slot="backText">返回</view>
+	<view slot="content">购物订单</view>
+</cu-custom>
+<view class="padding">
+    <block wx:for="{{orders}}" wx:for-item="order" wx:key>
+        <view class="bg-white padding {{index === 0 ? '' : 'margin-top-sm'}}" style="border-radius: 10px;">
+            <view class="flex align-center justify-between">
+                <view>
+                    <text style="color: black;font-size: 20px;">商品订单</text>
+                </view>
+                <view class="cu-tag line-green">
+                    已支付
+                </view>
+            </view>
+            <view style="margin-top: 5px;">
+                <text style="font-size: 12px;color: grey;">订单号：{{order.id}}</text>
+            </view>
+            <view style="margin-top: 5px;" class="flex justify-between">
+                <text style="font-size: 12px;color: grey;">时间：{{order.timestamp}}</text>
+                <text class="text-blue" bindtap="showDetail" data-index="{{index}}">{{order.showContent}}</text>
+            </view>
+            <view class="solid-bottom margin-top-sm"></view>
+            <view class="grid col-1 margin-top-lg" hidden="{{order.hideDetail}}">
+                <block wx:for="{{order.sonOrderList}}" wx:for-item="sonOrder" wx:key>
+                    <view class="flex solid-bottom" style="padding: 5px;">
+                        <image src="{{'http://localhost:8080/static/download/' + sonOrder.coverImage}}" mode="aspectFill" style="width: 50px;height: 50px;"></image>
+                        <view style="width: 100%;margin-left: 10px;">
+                            <view class="flex justify-between">
+                                <view class="flex">
+                                    <text>{{sonOrder.name}}</text>
+                                </view>
+                                <view class="flex align-end">
+                                    <text style="color:black;">￥</text>
+                                    <text style="color:black;font-size: 20px;margin-left: -4px;">{{sonOrder.price}}</text>
+                                </view>
+                            </view>
+                            <view class="margin-top-sm">
+                                <text>{{sonOrder.count}}份</text>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+            <view class="flex margin-top-sm justify-end align-end">
+                <text style="color: black;">总价</text>
+                <text style="color: black;margin-left: 5px;">￥</text>
+                <text style="color: black;margin-left: -4px;font-size: 25px;">{{order.price}}</text>
+            </view>
+        </view>
+    </block>
+</view>

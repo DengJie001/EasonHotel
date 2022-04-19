@@ -1,0 +1,30 @@
+<!--pages/Register/Register.wxml-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+    <view slot="backText">返回</view>
+	<view slot="content">注册</view>
+</cu-custom>
+<form>
+    <!-- <view class="cu-form-group margin-top">
+        <view class="title">姓名</view>
+        <input type="text" placeholder="姓名" bindinput="getInputValue" data-key="name" />
+    </view>
+    <view class="cu-form-group">
+        <view class="title">身份证</view>
+        <input type="idcard" placeholder="身份证号" bindinput="getInputValue" data-key="idCard" />
+    </view>
+    <view class="cu-form-group">
+        <view class="title">邮箱</view>
+        <input type="text" placeholder="邮箱" bindinput="getInputValue" data-key="email" />
+    </view>
+    <view class="cu-form-group">
+        <view class="title">手机号</view>
+        <input type="text" placeholder="手机号" bindinput="getInputValue" data-key="phoneNumber" />
+        <view class="cu-capsule radius">
+            <view class="cu-tag bg-blue">+86</view>
+            <view class="cu-tag line-blue">中国大陆</view>
+        </view>
+    </view> -->
+    <view class="flex justify-center margin-top">
+        <button class="bg-cyan" style="font-size: 15px;" bindtap="register">微信登录/注册</button>
+    </view>
+</form>

@@ -1,0 +1,53 @@
+<!--pages/Recharge/Recharge.wxml-->
+<cu-custom bgColor="bg-orange" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">充值服务</view>
+</cu-custom>
+<view class="padding grid col-3 justify-center">
+    <view class="padding-xs" wx:for="{{canRechargeList}}" wx:key wx:for-item="amount">
+        <button class="cu-btn orange lg block line-orange" data-amount="{{amount}}" bindtap="openConfirmModal">{{amount}}元</button>
+    </view>
+    <view class="padding-xs">
+        <button class="cu-btn white lg block bg-orange" bindtap="openOtherAmountInputModal">其他金额</button>
+    </view>
+</view>
+
+<view class="cu-modal {{showModal ? 'show' : ''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">充值提醒</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red" bindtap="hideModal"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            是否确认充值<text class="text-red">{{selectedAmount}}</text>元?
+        </view>
+        <view class="cu-bar bg-white">
+            <view class="action margin-0 flex-sub text-black solid-right" bindtap="hideModal">取消</view>
+            <view class="action margin-0 flex-sub text-green " bindtap="applyRecharge">
+                <text class="cuIcon-moneybag"></text>支付
+            </view>
+        </view>
+    </view>
+</view>
+
+<view class="cu-modal {{showOtherInputModal ? 'show' : ''}}">
+    <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+            <view class="content">输入金额</view>
+            <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red" bindtap="hideOtherAmountInputModal"></text>
+            </view>
+        </view>
+        <view class="padding-xl">
+            <input type="number" placeholder="输入金额" bindinput="getInputValue" />
+        </view>
+        <view class="cu-bar bg-white">
+            <view class="action margin-0 flex-sub text-black solid-right" bindtap="hideOtherAmountInputModal">取消</view>
+            <view class="action margin-0 flex-sub text-green" bindtap="applyRecharge">
+                <text class="cuIcon-moneybag"></text>支付
+            </view>
+        </view>
+    </view>
+</view>

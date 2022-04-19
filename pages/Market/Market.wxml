@@ -1,0 +1,94 @@
+<!--pages/Market/Market.wxml-->
+<cu-custom bgColor="bg-blue" isBack="{{true}}">
+    <view slot="backText">返回</view>
+	<view slot="content">购物</view>
+</cu-custom>
+<view hidden="{{hideDetail}}">
+    <swiper class="card-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500" indicator-color="#8799a3" indicator-active-color="#0081ff">
+		<swiper-item wx:for="{{swiperImages}}" wx:key class="{{swiperCur == index ? 'cur' : ''}}">
+			<view class="swiper-item">
+				<image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type == 'image'}}"></image>
+			</view>
+		</swiper-item>
+	</swiper>
+</view>
+<view class="VerticalBox" hidden="{{hideDetail}}">
+    <scroll-view class="VerticalNav nav" scroll-y scroll-with-animation scroll-top="{{verticalNavTop}}" style="height:(100vh -375rpx);">
+        <view class="cu-item {{index==curTab ? 'text-green cur' : ''}}" wx:for="{{tabList}}" wx:for-item="tab" wx:key bindtap='onTabChange' data-index="{{index}}">
+            {{tab.value}}
+        </view>
+    </scroll-view>
+
+    <scroll-view class="VerticalMain" scroll-y scroll-with-animation style="height: calc(100vh - 375rpx);" scroll-into-view="main-{{MainCur}}" bindscroll="onMainTabChange">
+        <view class="padding-top padding-lr" wx:for="{{commodityList}}" wx:key id="main-{{index}}">
+            <view class="cu-bar solid-bottom bg-white">
+                <view class="action">
+                    <text class="cuIcon-title text-green"></text>{{item.name}}
+                </view>
+            </view>
+            <view class="cu-list menu-avatar">
+                <view class="flex bg-white padding align-center" bindtap="showDetail" wx:for="{{item.sonCommodityList}}" wx:key wx:for-item="sonItem" data-id="{{sonItem.id}}">
+                    <view class="cu-avatar radius lg" style="background-image:url(http://localhost:8080/static/download/{{sonItem.coverImage}});height: 50px;width: 50px;"></view>
+                    <view class="grid col-1 margin-left-sm">
+                        <view>
+                            <text style="font-size: 15px;font-weight: bold;" class="text-cut text-black">{{sonItem.name}}</text>
+                        </view>
+                        <view class="text-gray text-sm flex" style="margin-top: 2px;">
+                            <text>库存:{{sonItem.inventory}}</text>
+                            <text style="margin-left: 3px;">销量:{{sonItem.sales}}</text>
+                        </view>
+                        <view class="flex  align-center" style="margin-top: 2px;">
+                            <view class="flex align-center">
+                                <text style="font-size: 15px;color: red;">￥</text>
+                                <text style="font-size: 20px;color: red;">{{sonItem.price}}</text>
+                            </view>
+                            <view class="flex" style="position: absolute;right: 40px;">
+                                <text class="cuIcon-roundaddfill text-blue" style="font-size: 20px;" data-id="{{sonItem.id}}" catchtap="addCart"></text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+</view>
+
+<view class="btnSuspension shadow" bindtap="toCart" style="top: 70%;right: 10px;background-color: #0097FF;">
+    <view class="cu-tag badge">{{total > 99 ? '99+' : total}}</view>
+	<text class="cuIcon-cart" style="color: white;font-size: 35px;"></text>
+</view>
+
+<view hidden="{{!hideDetail}}">
+    <swiper class="screen-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500" >
+        <swiper-item wx:for="{{commodityDetail.detailPicList}}" wx:key>
+            <image src="{{'http://localhost:8080/static/download/' + item}}" mode="aspectFill"></image>        
+            <view style="position: fixed;top: 0;" bindtap="showList">
+                <text class="cuIcon-roundleftfill-copy text-black margin-left-sm margin-top-sm" style="font-size: 30px;opacity: 0.5;"></text>
+            </view>
+        </swiper-item>
+    </swiper>
+
+    <view class="grid col-1" style="padding: 10px;">
+        <view class="bg-white" style="border-radius: 5px;padding: 10px;">
+            <view>
+                <text style="font-size: 18px;font-weight: bold;color: black;">{{commodityDetail.name}}</text>
+            </view>
+            <view class="flex justify-start bg-white margin-top-sm align-center" style="border-radius: 5px;">
+                <text>月售</text>
+                <text style="margin-left: 4px;font-size: 12px;color: grey;">{{commodityDetail.sales}}份</text>
+            </view>
+            <view class="margin-top-sm" wx:if="{{commodityDetail.description == '' && commodityDetail.description == null}}">
+                {{commodityDetail.description}}
+            </view>
+            <view class="flex justify-between margin-top-sm align-center">
+                <view class="flex align-end">
+                    <text style="color: red;">￥</text>
+                    <text style="color: red;font-size: 20px;">{{commodityDetail.price}}</text>
+                </view>
+                <view class="cu-capsule round justify-center align-center" style="background-color: #02B6FD; color: white; padding: 1px;">
+                    <text style="margin-left: 10px;">+</text><text style="margin-right: 10px;" data-id="{{commodityDetail.id}}" bindtap="addCart">加入购物车</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

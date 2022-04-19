@@ -1,0 +1,49 @@
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+    <view slot="backText">返回</view>
+	<view slot="content">账户信息</view>
+</cu-custom>
+<view>
+    <form>
+        <view class="padding">
+            <view class="cu-form-group margin-top">
+                <view class="title">ID</view>
+                <input type="text" value="{{userInfo.id}}" disabled="{{true}}"/>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">昵称</view>
+                <input type="text" placeholder="昵称" value="{{userInfo.nickName}}" data-key="nickName" bindinput="getInputValue"/>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">姓名</view>
+                <input type="text" placeholder="姓名" value="{{userInfo.realName}}" data-key="realName" bindinput="getInputValue"/>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">电话号码</view>
+                <input type="text" placeholder="电话号码" value="{{userInfo.phoneNumber}}" data-key="phoneNumber" bindinput="getInputValue"/>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">邮箱</view>
+                <input type="text" placeholder="邮箱" value="{{userInfo.email}}" data-key="email" bindinput="getInputValue"/>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">余额</view>
+                <input type="text" value="{{userInfo.balance}}" disabled="{{true}}"/>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">身份证</view>
+                <input type="text" placeholder="身份证" value="{{userInfo.idCard}}" data-key="idCard" bindinput="getInputValue"/>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">积分</view>
+                <input type="text" disabled="{{true}}" value="{{userInfo.point}}"/>
+            </view>
+            <view class="cu-form-group">
+                <view class="title">会员等级</view>
+                <input type="text" disabled="{{true}}" value="{{userInfo.level}}"/>
+            </view>
+            <view class="cu-form-group flex justify-end">
+                <button class="cu-btn bg-blue" bindtap="submit">保存</button>
+            </view>
+        </view>
+    </form>
+</view>

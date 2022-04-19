@@ -1,0 +1,122 @@
+<!--pages/HotelDetail/HotelDetail.wxml-->
+<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+	<view slot="baxtText">返回</view>
+	<view slot="content">{{hotelInfo.name}}</view>
+</cu-custom>
+<swiper class="screen-swiper square-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="5000">
+	<swiper-item wx:for="{{hotelInfo.detailPicList}}" wx:key wx:for-item="detailPicId" wx:for-index="picIdIndex">
+		<image src="{{'http://localhost:8080/static/download/' + detailPicId}}" mode="aspectFill"></image>
+	</swiper-item>
+</swiper>
+<view class="flex justify-center margin-top-xs">
+	<view class="justify-center shadow bg-white" style="width: 95%;border-radius: 10px;">
+		<view class="grid col-1 padding-sm basis-xl solid-bottom">
+			<view style="font-size: 20px;" class="margin-bottom-xs">
+				{{hotelInfo.name}}({{hotelInfo.cityName}}店)
+				<text class="cuIcon-likefill text-red" style="font-size: 15px;" wx:if="{{hotelInfo.recommend}}"></text>
+			</view>
+			<view class="flex justify-between" style="font-size: 12px;">
+				<view>{{hotelInfo.openYear}}年开业</view>
+				<view class="text-blue" bindtap="toPolicyAndFacility">详情·设施 ></view>
+			</view>
+			<view class="margin-top-xs">
+				{{hotelInfo.address}}
+			</view>
+		</view>
+		<view class="flex justify-between padding-sm align-center">
+			<view class="text-blue text-bold" style="font-size: 23px;">{{hotelInfo.score}}分</view>
+			<view class="text-blue">{{hotelInfo.hotelCommentList.length}}条评价 ></view>
+		</view>
+	</view>
+</view>
+<form>
+	<view class="flex cu-form-group solid-bottom bg-blue light justify-between" style="margin-top: 10px;">
+		<view class="flex align-center">
+			<view><text>入住：</text></view>
+			<picker class="text-bold" mode="date" value="{{startDateSelected}}" start="{{todayStart}}" end="{{todayEnd}}" bindchange="datePickerChange" data-key="today">
+				<view class="">
+					{{startDateSelected}}
+				</view>
+			</picker>
+		</view>
+		<view>——</view>
+		<view class="flex align-center">
+			<view><text>离店：</text></view>
+			<picker class="text-bold" mode="date" value="{{endDateSelected}}" start="{{tomorrowStart}}" end="{{tomorrowEnd}}" bindchange="datePickerChange" data-key="tomorrow">
+				<view class="">
+					{{endDateSelected}}
+				</view>
+			</picker>
+		</view>
+	</view>
+</form>
+<view style="margin-top: -20px;">
+	<view class="grid col-1" style="width: 100%;">
+		<view class="cu-card article" wx:for="{{hotelInfo.roomDetailList}}" wx:key wx:for-item="roomDetail">
+			<view class="cu-item" style="margin: 0; margin-top: 20px;">
+				<view class="title">
+					<view class="text-cut flex justify-between" style="font-size: 20px;">
+						<view>{{roomDetail.name}}</view>
+						<view style="font-size: 11px;" class="text-blue" bindtap="showMore">查看更多</view>
+					</view>
+				</view>
+				<view class="content">
+					<image mode="aspectFill" src="{{'http://localhost:8080/static/download/' + roomDetail.coverPicList[0]}}"></image>
+					<view class="grid col-1 padding-xs">
+						<view style="font-size: 15px;margin: 0;color: #585858;;">
+							{{roomDetail.name}}
+						</view>
+						<view class="flex" style="color: #585858;">
+							<view>{{roomDetail.bedType}}</view>
+							<view class="margin-left-xs text-cut">{{roomDetail.peopleNumber}}人入住</view>
+							<view class="margin-left-xs">{{roomDetail.minimumArea}}~{{roomDetail.maximumArea}}㎡</view>
+						</view>
+						<view class="text-green">30分钟内可以免费取消</view>
+						<view class="grid margin-top-xs">
+						</view>
+					</view>
+					<view class="flex align-end justify-center">
+						<text style="font-size: 30px;" class="text-price text-red">{{roomDetail.price}}</text>
+						<text style="font-size: 10px;" class="text-red">起</text>
+					</view>
+				</view>
+			</view>
+			<view hidden="{{hidden}}" class="margin-top-lg margin-bottom-lg">
+				<block wx:for="{{roomDetail.roomNumberDetailList}}" wx:key wx:for-item="roomNumberDetail">
+					<view class="flex p-xs margin-bottom-sm mb-sm solid-bottom">
+						<view class="flex-twice">
+							<view class="margin-left-lg margin-bottom-xs text-blue" style="font-size: 20px;">#{{roomNumberDetail.roomNumber}}</view>
+							<view class="margin-left-lg margin-bottom-xs">{{roomNumberDetail.area}}㎡</view>
+							<view class="margin-left-lg margin-bottom-xs">18:00前可免费取消</view>
+						</view>
+						<view style="margin-right: 30px; margin-top: 20px;" class="justify-center align-end">
+							<view>
+								<text style="font-size: 20px;margin-right: 5px;" class="text-price text-red">{{roomNumberDetail.price}}</text>
+								<button class="cu-btn bg-red shadow" bindtap="toAddHotelOrder" data-roomInfo="{{roomDetail}}" data-roomNumberInfo="{{roomNumberDetail}}">预订</button>
+							</view>
+						</view>
+					</view>
+				</block>
+			</view>
+		</view>
+	</view>
+</view>
+<view class="margin-top bg-white justify-start padding-sm">
+	<view class="text-xl text-black">用户评价</view>
+	<block wx:for="{{hotelInfo.hotelCommentList}}" wx:key wx:for-item="comment">
+		<view class="margin-top">
+			<view style="font-size: 12px;">
+				{{comment.date}}入住的会员<view wx:if="{{comment.content.length > 10}}" class="cu-tag line-purple" style="font-size: 10px;margin-left: 5px;">优质评价</view>
+			</view>
+			<view class="solid-bottom">{{comment.content}}</view>
+		</view>
+	</block>
+	<!-- <view class="flex justify-center" style="margin-top: 10px;">
+		<button class="cu-btn line-gray text-black">剩余1111条评论</button>
+	</view> -->
+	<view class="grid col-3 justify-center text-gray" style="margin-top: 40px;">
+		<view>·底价保证</view>
+		<view>·权益丰富</view>
+		<view>·官方渠道优先服务</view>
+	</view>
+</view>
